@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+BUILD_DIR=$1
+
+echo "-----> Downloading Heroku CLI"
+wget -q https://cli-assets.heroku.com/branches/stable/heroku-linux-amd64.tar.gz
+
+echo "-----> Unpacking Heroku CLI"
+mkdir -p $BUILD_DIR/.heroku
+tar -xzf heroku-linux-amd64.tar.gz -C $BUILD_DIR/.heroku/
+
+echo "-----> Adding Heroku CLI to PATH"
+PROFILE_FILE="$BUILD_DIR/.profile.d/heroku-cli.sh"
+mkdir -p $(dirname $PROFILE_FILE)
+echo 'export PATH="/app/.heroku/heroku/bin:$PATH"' > $PROFILE_FILE
+
+echo "-----> Heroku CLI installed"
